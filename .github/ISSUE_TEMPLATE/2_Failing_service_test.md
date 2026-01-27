@@ -21,12 +21,12 @@ labels: 'keep-service-tests-green'
 :lady_beetle: **Stack trace**
 
 ```
-<!-- Provide the complete stack trace from the CircleCI test summary. -->
+<!-- Provide the complete stack trace from the GitHub Actions test summary. -->
 ```
 
 :bulb: **Possible solution**
 
 <!--- Optional: only if you have suggestions on a fix/reason for the bug -->
 
-<!-- Love Shields? Please consider donating $10 to sustain our activities:
+<!-- Love Shields? Please consider donating to sustain our activities:
 👉  https://opencollective.com/shields -->

@@ -97,6 +97,8 @@ export default class DockerVersion extends BaseJsonService {
     },
   }
 
+  static _cacheLength = 900
+
   static defaultBadgeData = { label: 'version', color: 'blue' }
 
   static render({ version }) {
@@ -131,7 +133,14 @@ export default class DockerVersion extends BaseJsonService {
       const { digest } = imageTag
       return { version: getDigestSemVerMatches({ data: pagedData, digest }) }
     } else if (!tag && sort === 'semver') {
-      const matches = data.map(d => d.name)
+      const matches = data
+        .filter(d => d.images.some(image => image.architecture === arch))
+        .map(d => d.name)
+      if (matches.length === 0) {
+        throw new InvalidResponse({
+          prettyMessage: `no images found for arch ${arch}`,
+        })
+      }
       return { version: latest(matches) }
     } else {
       version = data.find(d => d.name === tag)

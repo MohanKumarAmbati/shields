@@ -1,9 +1,9 @@
 import { expect } from 'chai'
 import Camp from '@shields_io/camp'
-import FormData from 'form-data'
+import { FormData } from 'undici'
 import sinon from 'sinon'
 import portfinder from 'portfinder'
-import queryString from 'query-string'
+import qs from 'qs'
 import nock from 'nock'
 import got from '../../../core/got-test-client.js'
 import GithubConstellation from '../github-constellation.js'
@@ -50,11 +50,11 @@ describe('Github token acceptor', function () {
 
     expect(res.statusCode).to.equal(302)
 
-    const qs = queryString.stringify({
+    const queryString = qs.stringify({
       client_id: fakeClientId,
       redirect_uri: 'https://img.shields.io/github-auth/done',
     })
-    const expectedLocationHeader = `https://github.com/login/oauth/authorize?${qs}`
+    const expectedLocationHeader = `https://github.com/login/oauth/authorize?${queryString}`
     expect(res.headers.location).to.equal(expectedLocationHeader)
   })
 
@@ -79,14 +79,11 @@ describe('Github token acceptor', function () {
         scope = nock('https://github.com')
           .post('/login/oauth/access_token')
           .reply((url, requestBody) => {
-            const parsedBody = queryString.parse(requestBody)
+            const parsedBody = qs.parse(requestBody)
             expect(parsedBody.client_id).to.equal(fakeClientId)
             expect(parsedBody.client_secret).to.equal(fakeClientSecret)
             expect(parsedBody.code).to.equal(fakeCode)
-            return [
-              200,
-              queryString.stringify({ access_token: fakeAccessToken }),
-            ]
+            return [200, qs.stringify({ access_token: fakeAccessToken })]
           })
       })
 
@@ -114,10 +111,11 @@ describe('Github token acceptor', function () {
         const res = await got.post(`${baseUrl}/github-auth/done`, {
           body: form,
         })
-        expect(res.body).to.startWith(
-          '<p>Shields.io has received your app-specific GitHub user token.',
-        )
-
+        expect(
+          res.body.startsWith(
+            '<p>Shields.io has received your app-specific GitHub user token.',
+          ),
+        ).to.be.true
         expect(onTokenAccepted).to.have.been.calledWith(fakeAccessToken)
       })
     })

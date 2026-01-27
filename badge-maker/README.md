@@ -1,8 +1,6 @@
 # badge-maker
 
-[![npm version](https://img.shields.io/npm/v/badge-maker.svg)](https://npmjs.org/package/badge-maker)
-[![npm license](https://img.shields.io/npm/l/badge-maker.svg)](https://npmjs.org/package/badge-maker)
-[![npm type definitions](https://img.shields.io/npm/types/badge-maker)](https://npmjs.org/package/badge-maker)
+[![npm version](https://img.shields.io/npm/v/badge-maker.svg)](https://npmjs.org/package/badge-maker) [![npm license](https://img.shields.io/npm/l/badge-maker.svg)](https://npmjs.org/package/badge-maker) [![npm type definitions](https://img.shields.io/npm/types/badge-maker)](https://npmjs.org/package/badge-maker)
 
 ## Installation
 
@@ -21,15 +19,7 @@ badge build passed :brightgreen > mybadge.svg
 
 ### As a library
 
-With CommonJS in JavaScript,
-
 ```js
-const { makeBadge, ValidationError } = require('badge-maker')
-```
-
-With ESM or TypeScript,
-
-```ts
 import { makeBadge, ValidationError } from 'badge-maker'
 ```
 
@@ -52,8 +42,7 @@ try {
 
 ### Node version support
 
-The latest version of badge-maker supports all currently maintained Node
-versions. See the [Node Release Schedule][].
+The latest version of badge-maker supports all currently maintained Node versions. See the [Node Release Schedule][].
 
 [node release schedule]: https://github.com/nodejs/Release#release-schedule
 
@@ -67,7 +56,7 @@ The format is the following:
   message: 'passed',  // (Required) Badge message
   labelColor: '#555',  // (Optional) Label color
   color: '#4c1',  // (Optional) Message color
-  logoBase64: 'data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI2NCIgaGVpZ2h0PSI2NCI+PHJlY3Qgd2lkdGg9IjY0IiBoZWlnaHQ9IjY0IiByeD0iOCIgZmlsbD0iI2IxY2U1NiIvPjxwYXRoIGQ9Ik04IDBoMjR2NjRIOGMtNC40MzIgMC04LTMuNTY4LTgtOFY4YzAtNC40MzIgMy41NjgtOCA4LTh6IiBmaWxsPSIjNWQ1ZDVkIi8+PC9zdmc+' // (Optional) Any custom logo can be passed in a URL parameter by base64 encoding
+  logoBase64: 'data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI2NCIgaGVpZ2h0PSI2NCI+PHJlY3Qgd2lkdGg9IjY0IiBoZWlnaHQ9IjY0IiByeD0iOCIgZmlsbD0iI2IxY2U1NiIvPjxwYXRoIGQ9Ik04IDBoMjR2NjRIOGMtNC40MzIgMC04LTMuNTY4LTgtOFY4YzAtNC40MzIgMy41NjgtOCA4LTh6IiBmaWxsPSIjNWQ1ZDVkIi8+PC9zdmc+', // (Optional) Any custom logo can be passed in a URL parameter by base64 encoding
   links: ['https://example.com', 'https://example.com'], // (Optional) Links array of maximum two links
 
   // (Optional) One of: 'plastic', 'flat', 'flat-square', 'for-the-badge' or 'social'
@@ -141,9 +130,4 @@ There are three ways to specify `color` and `labelColor`:
 
 ## Raster Formats
 
-Conversion to raster formats is no longer directly supported. In javascript
-code, SVG badges can be converted to raster formats using a library like
-[gm](https://www.npmjs.com/package/gm). On the console, the output of `badge`
-can be piped to a utility like
-[imagemagick](https://imagemagick.org/script/command-line-processing.php)
-e.g: `badge build passed :green | magick svg:- gif:-`.
+Conversion to raster formats is no longer directly supported. In javascript code, SVG badges can be converted to raster formats using a library like [gm](https://www.npmjs.com/package/gm). On the console, the output of `badge` can be piped to a utility like [imagemagick](https://imagemagick.org/script/command-line-processing.php) e.g: `badge build passed :green | magick svg:- gif:-`.

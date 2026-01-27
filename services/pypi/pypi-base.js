@@ -9,6 +9,7 @@ const schema = Joi.object({
     // https://github.com/badges/shields/issues/2022
     // https://github.com/badges/shields/issues/7728
     license: Joi.string().allow('').allow(null),
+    license_expression: Joi.string().allow('').allow(null),
     classifiers: Joi.array().items(Joi.string()).required(),
   }).required(),
   urls: Joi.array()
@@ -37,6 +38,12 @@ export const pypiBaseUrlParam = queryParam({
 export const pypiGeneralParams = [pypiPackageParam, pypiBaseUrlParam]
 
 export default class PypiBase extends BaseJsonService {
+  constructor(...args) {
+    super(...args)
+    this._defaultPypiBaseUrl =
+      config.util.toObject().public.services.pypi.baseUri
+  }
+
   static buildRoute(base) {
     return {
       base,
@@ -45,10 +52,7 @@ export default class PypiBase extends BaseJsonService {
     }
   }
 
-  async fetch({ egg, pypiBaseUrl = null }) {
-    const defaultpypiBaseUrl =
-      config.util.toObject().public.services.pypi.baseUri
-    pypiBaseUrl = pypiBaseUrl || defaultpypiBaseUrl
+  async fetch({ egg, pypiBaseUrl = this._defaultPypiBaseUrl }) {
     return this._requestJson({
       schema,
       url: `${pypiBaseUrl}/pypi/${egg}/json`,

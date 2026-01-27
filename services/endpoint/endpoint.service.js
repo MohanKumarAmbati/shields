@@ -1,14 +1,15 @@
 import { URL } from 'url'
 import Joi from 'joi'
+import configModule from 'config'
 import { httpErrors } from '../dynamic-common.js'
-import { optionalUrl } from '../validators.js'
+import { url } from '../validators.js'
 import { fetchEndpointData } from '../endpoint-common.js'
 import { BaseJsonService, InvalidParameter, queryParams } from '../index.js'
 
 const blockedDomains = ['github.com', 'shields.io']
 
 const queryParamSchema = Joi.object({
-  url: optionalUrl.required(),
+  url,
 }).required()
 
 const description = `
@@ -94,12 +95,13 @@ The endpoint badge takes a single required query param: <code>url</code>, which 
         </td>
       </tr>
       <tr>
-        <td><code>logoWidth</code></td>
-        <td>
-          Default: none. Same meaning as the query string. Can be overridden by
-          the query string.
-        </td>
-      </tr>
+      <td><code>logoSize</code></td>
+      <td>
+        Default: none. Make icons adaptively resize by setting <code>auto</code>.
+        Useful for some wider logos like <code>amd</code> and <code>amg</code>.
+        Supported for simple-icons logos only.
+      </td>
+    </tr>
       <tr>
         <td><code>style</code></td>
         <td>
@@ -147,7 +149,7 @@ export default class Endpoint extends BaseJsonService {
     namedLogo,
     logoSvg,
     logoColor,
-    logoWidth,
+    logoSize,
     style,
     cacheSeconds,
   }) {
@@ -160,13 +162,20 @@ export default class Endpoint extends BaseJsonService {
       namedLogo,
       logoSvg,
       logoColor,
-      logoWidth,
+      logoSize,
       style,
       // don't allow the user to set cacheSeconds any shorter than this._cacheLength
       cacheSeconds: Math.max(
         ...[this._cacheLength, cacheSeconds].filter(x => x !== undefined),
       ),
     }
+  }
+
+  constructor(...args) {
+    super(...args)
+    const config = configModule.util.toObject()
+    this._allowUnsecuredEndpointRequests =
+      config?.public?.allowUnsecuredEndpointRequests || false
   }
 
   async handle(namedParams, { url }) {
@@ -178,7 +187,7 @@ export default class Endpoint extends BaseJsonService {
     } catch (e) {
       throw new InvalidParameter({ prettyMessage: 'invalid url' })
     }
-    if (protocol !== 'https:') {
+    if (protocol !== 'https:' && !this._allowUnsecuredEndpointRequests) {
       throw new InvalidParameter({ prettyMessage: 'please use https' })
     }
     if (blockedDomains.some(domain => hostname.endsWith(domain))) {

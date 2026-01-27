@@ -1,10 +1,8 @@
 import Joi from 'joi'
-import {
-  floorCount as floorCountColor,
-  age as ageColor,
-} from '../color-formatters.js'
+import { renderDateBadge } from '../date.js'
+import { floorCount as floorCountColor } from '../color-formatters.js'
 import { renderLicenseBadge } from '../licenses.js'
-import { metric, formatDate } from '../text-formatters.js'
+import { metric } from '../text-formatters.js'
 import { nonNegativeInteger } from '../validators.js'
 import {
   BaseJsonService,
@@ -19,7 +17,7 @@ const aurSchema = Joi.object({
   results: Joi.array()
     .items(
       Joi.object({
-        License: Joi.array().items(Joi.string().required()).allow(null),
+        License: Joi.array().items(Joi.string()).allow(null),
         NumVotes: nonNegativeInteger,
         Popularity: Joi.number().precision(2).min(0).required(),
         Version: Joi.string().required(),
@@ -76,7 +74,7 @@ class AurLicense extends BaseAurService {
 
   transform(json) {
     const licenses = json.results[0].License
-    if (!licenses) {
+    if (!licenses || licenses.length === 0) {
       throw new NotFound({ prettyMessage: 'not specified' })
     }
 
@@ -243,16 +241,10 @@ class AurLastModified extends BaseAurService {
 
   static defaultBadgeData = { label: 'last modified' }
 
-  static render({ date }) {
-    const color = ageColor(date)
-    const message = formatDate(date)
-    return { color, message }
-  }
-
   async handle({ packageName }) {
     const json = await this.fetch({ packageName })
     const date = 1000 * parseInt(json.results[0].LastModified)
-    return this.constructor.render({ date })
+    return renderDateBadge(date)
   }
 }
 

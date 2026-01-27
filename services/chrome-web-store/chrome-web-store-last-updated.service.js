@@ -1,7 +1,8 @@
-import { age } from '../color-formatters.js'
-import { formatDate } from '../text-formatters.js'
+import { renderDateBadge } from '../date.js'
 import { NotFound, pathParams } from '../index.js'
-import BaseChromeWebStoreService from './chrome-web-store-base.js'
+import BaseChromeWebStoreService, {
+  description,
+} from './chrome-web-store-base.js'
 
 export default class ChromeWebStoreLastUpdated extends BaseChromeWebStoreService {
   static category = 'activity'
@@ -11,6 +12,7 @@ export default class ChromeWebStoreLastUpdated extends BaseChromeWebStoreService
     '/chrome-web-store/last-updated/{storeId}': {
       get: {
         summary: 'Chrome Web Store Last Updated',
+        description,
         parameters: pathParams({
           name: 'storeId',
           example: 'nccfelhkfpbnefflolffkclhenplhiab',
@@ -31,11 +33,6 @@ export default class ChromeWebStoreLastUpdated extends BaseChromeWebStoreService
       throw new NotFound({ prettyMessage: 'not found' })
     }
 
-    const lastUpdatedDate = Date.parse(lastUpdated)
-
-    return {
-      message: formatDate(lastUpdatedDate),
-      color: age(lastUpdatedDate),
-    }
+    return renderDateBadge(lastUpdated)
   }
 }

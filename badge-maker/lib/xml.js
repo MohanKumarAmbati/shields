@@ -2,13 +2,11 @@
  * @module
  */
 
-'use strict'
-
-function stripXmlWhitespace(xml) {
+export function stripXmlWhitespace(xml) {
   return xml.replace(/>\s+/g, '>').replace(/<\s+/g, '<').trim()
 }
 
-function escapeXml(s) {
+export function escapeXml(s) {
   if (typeof s === 'number') {
     return s
   } else if (s === undefined || typeof s !== 'string') {
@@ -26,14 +24,14 @@ function escapeXml(s) {
 /**
  * Representation of an XML element
  */
-class XmlElement {
+export class XmlElement {
   /**
    * Xml Element Constructor
    *
    * @param {object} attrs Refer to individual attrs
    * @param {string} attrs.name
    *    Name of the XML tag
-   * @param {Array.<string|module:badge-maker/lib/xml~XmlElement>} [attrs.content=[]]
+   * @param {Array.<string|XmlElement>} [attrs.content=[]]
    *    Array of objects to render inside the tag. content may contain a mix of
    *    string and XmlElement objects. If content is `[]` or omitted the
    *    element will be rendered as a self-closing element.
@@ -77,7 +75,7 @@ class XmlElement {
  * Convenience class. Sometimes it is useful to return an object that behaves
  * like an XmlElement but renders multiple XML tags (not wrapped in a <g>).
  */
-class ElementList {
+export class ElementList {
   constructor({ content = [] }) {
     this.content = content
   }
@@ -92,5 +90,3 @@ class ElementList {
     )
   }
 }
-
-module.exports = { escapeXml, stripXmlWhitespace, XmlElement, ElementList }

@@ -8,14 +8,13 @@ When we receive input data from an upstream API, we perform input validation to:
 
 ## Writing schemas and validation
 
-- The default validation mechanism should be to use [Joi](https://github.com/sideway/joi) to define a schema for the input data. Validation against Joi schemas is implemented in the base classes and inherited by every service class that extends them. Sometimes additional manual validation is needed which can't be covered by Joi and plugins in which case we implement it by hand.
+- The default validation mechanism should be to use [Joi](https://github.com/hapijs/joi) to define a schema for the input data. Validation against Joi schemas is implemented in the base classes and inherited by every service class that extends them. Sometimes additional manual validation is needed which can't be covered by Joi and plugins in which case we implement it by hand.
 
 - If validation is implemented manually (because we need to enforce a constraint that can't be expressed with Joi), invalid data should throw an [InvalidResponse](https://contributing.shields.io/module-core_base-service_errors-InvalidResponse.html) exception.
 
 - Our definition of "valid" should not be stricter than the upstream API's definition of "valid".
 
 - The schema/validation we choose is informed by the assumptions we're making about the data. e.g:
-
   - If we're going to use a value, make sure it exists.
   - If we need to multiply it by something, we check it's a number.
   - If we're going to call `.split()` on it, we make sure it's a string.
@@ -24,7 +23,7 @@ When we receive input data from an upstream API, we perform input validation to:
 
 - We don't need to validate characteristics we don't rely on. For example, if we're just going to render a version on a badge with the same exact value from the API response and do not need to sort or transform the value, then it doesn't matter what format the version number is in. We can use a very relaxed schema to validate in this case, e.g. `Joi.string().required()`
 
-- http://mterczynski.pl/joi-schema-generator/ is a tool that can be used to reverse engineer a schema from an API response. This can be a great starting point to tweak from. If using this as a starting point, remember to remove fields we don't rely on to render a badge.
+- https://joi.dev/tester/ is a tool that can be used to reverse engineer a schema from an API response. This can be a great starting point to tweak from. If using this as a starting point, remember to remove fields we don't rely on to render a badge.
 
 - If theory (docs) and practice (real-world API responses) conflict, real-world outputs take precedence over documented behaviour. e.g: if the docs say version is a semver but we learn that there are real-world packages where the version number is `0.3b` or `1.2.1.27` then we should accept those values in preference to enforcing the documented API behaviour.
 

@@ -1,5 +1,5 @@
 import Joi from 'joi'
-import prettyBytes from 'pretty-bytes'
+import { renderSizeBadge } from '../size.js'
 import { nonNegativeInteger } from '../validators.js'
 import { latest } from '../version.js'
 import { BaseJsonService, NotFound, pathParams, queryParams } from '../index.js'
@@ -120,13 +120,9 @@ export default class DockerSize extends BaseJsonService {
     },
   }
 
-  static _cacheLength = 600
+  static _cacheLength = 900
 
   static defaultBadgeData = { label: 'image size', color: 'blue' }
-
-  static render({ size }) {
-    return { message: prettyBytes(size) }
-  }
 
   async fetch({ user, repo, tag, page }) {
     page = page ? `&page=${page}` : ''
@@ -233,6 +229,6 @@ export default class DockerSize extends BaseJsonService {
     }
 
     const { size } = await this.transform({ tag, sort, data, arch })
-    return this.constructor.render({ size })
+    return renderSizeBadge(size, 'iec', 'image size')
   }
 }

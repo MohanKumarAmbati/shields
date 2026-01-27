@@ -1,5 +1,5 @@
 import Joi from 'joi'
-import { optionalUrl } from '../validators.js'
+import { url } from '../validators.js'
 import { BaseJsonService, NotFound, queryParams } from '../index.js'
 
 const schema = Joi.object()
@@ -14,7 +14,7 @@ const schema = Joi.object()
   .required()
 
 const queryParamSchema = Joi.object({
-  specUrl: optionalUrl.required(),
+  specUrl: url,
 }).required()
 
 export default class SwaggerValidatorService extends BaseJsonService {
@@ -34,7 +34,7 @@ export default class SwaggerValidatorService extends BaseJsonService {
           name: 'specUrl',
           required: true,
           example:
-            'https://raw.githubusercontent.com/OAI/OpenAPI-Specification/master/examples/v2.0/json/petstore-expanded.json',
+            'https://raw.githubusercontent.com/OAI/OpenAPI-Specification/c442afe06ec28443df0c69d01dc38c54968b246f/examples/v2.0/json/petstore-expanded.json',
         }),
       },
     },
@@ -54,7 +54,7 @@ export default class SwaggerValidatorService extends BaseJsonService {
 
   async fetch({ specUrl }) {
     return this._requestJson({
-      url: 'http://validator.swagger.io/validator/debug',
+      url: 'https://validator.swagger.io/validator/debug',
       schema,
       options: {
         searchParams: {

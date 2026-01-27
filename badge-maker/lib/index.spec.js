@@ -1,7 +1,5 @@
-'use strict'
-
-const { expect } = require('chai')
-const { makeBadge, ValidationError } = require('.')
+import { expect } from 'chai'
+import { makeBadge, ValidationError } from './index.js'
 
 describe('makeBadge function', function () {
   it('should produce badge with valid input', async function () {
@@ -91,12 +89,6 @@ describe('makeBadge function', function () {
         message: 'passed',
         style: 'something else',
       }),
-    ).to.throw(
-      ValidationError,
-      'Field `style` must be one of (plastic,flat,flat-square,for-the-badge,social)',
-    )
-    expect(() =>
-      makeBadge({ label: 'build', message: 'passed', style: 'popout' }),
     ).to.throw(
       ValidationError,
       'Field `style` must be one of (plastic,flat,flat-square,for-the-badge,social)',

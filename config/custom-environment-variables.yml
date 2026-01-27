@@ -25,12 +25,9 @@ public:
 
   rasterUrl: 'RASTER_URL'
 
-  cors:
-    allowedOrigin:
-      __name: 'ALLOWED_ORIGIN'
-      __format: 'json'
-
   services:
+    bitbucket:
+      authorizedOrigins: 'BITBUCKET_ORIGINS'
     bitbucketServer:
       authorizedOrigins: 'BITBUCKET_SERVER_ORIGINS'
     drone:
@@ -67,7 +64,7 @@ public:
   cacheHeaders:
     defaultCacheLengthSeconds: 'BADGE_MAX_AGE_SECONDS'
 
-  fetchLimit: 'FETCH_LIMIT'
+  fetchLimitBytes: 'FETCH_LIMIT_BYTES'
   userAgentBase: 'USER_AGENT_BASE'
 
   requestTimeoutSeconds: 'REQUEST_TIMEOUT_SECONDS'
@@ -101,10 +98,11 @@ private:
   npm_token: 'NPM_TOKEN'
   obs_user: 'OBS_USER'
   obs_pass: 'OBS_PASS'
-  redis_url: 'REDIS_URL'
   opencollective_token: 'OPENCOLLECTIVE_TOKEN'
   pepy_key: 'PEPY_KEY'
   postgres_url: 'POSTGRES_URL'
+  reddit_client_id: 'REDDIT_CLIENT_ID'
+  reddit_client_secret: 'REDDIT_CLIENT_SECRET'
   sentry_dsn: 'SENTRY_DSN'
   sl_insight_userUuid: 'SL_INSIGHT_USER_UUID'
   sl_insight_apiToken: 'SL_INSIGHT_API_TOKEN'

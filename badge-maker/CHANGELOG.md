@@ -1,5 +1,32 @@
 # Changelog
 
+## 5.0.2
+
+### Bug Fixes
+
+- Fix export for require
+
+## 5.0.1
+
+### Bug Fixes
+
+- Fix ESM type exports
+
+### Other Changes
+
+- Drop use-strict from badge-maker header
+
+## 5.0.0
+
+### Breaking Changes
+
+- Drop compatibility with Node < 20
+- Switch from CommonJS to ESModules
+
+### Other Changes
+
+- Switching to using `href`s instead of the old `xlink:href` syntax
+
 ## 4.1.0
 
 ### Features
@@ -49,8 +76,7 @@
 - Deprecated parameters have been removed. In version 2.2.0 the `colorA`, `colorB` and `colorscheme` params were deprecated. In version 3.0.0 these have been removed.
 - Only SVG output format is now provided. JSON format has been dropped and the `format` key has been removed.
 - The `text` array has been replaced by `label` and `message` keys.
-- The `template` key has been renamed `style`.
-  To upgrade from v2.1.1, change your code from:
+- The `template` key has been renamed `style`. To upgrade from v2.1.1, change your code from:
   ```js
   const { BadgeFactory } = require('gh-badges')
   const bf = new BadgeFactory()
@@ -113,7 +139,6 @@
 ### Deprecations
 
 - `labelColor` and `color` are now the recommended attribute names for label color and message color.
-
   - `colorA` (now an alias for `labelColor`),
   - `colorB` (now an alias for `color`) and
   - `colorscheme` (now an alias for `color`)
@@ -152,8 +177,7 @@
 
 ## 2.1.0 - 2018-11-18
 
-gh-badges v2.1.0 implements a new text width measurer which uses a lookup table, removing the dependency
-on PDFKit. It is no longer necessary to provide a local copy of Verdana for accurate text width computation.
+gh-badges v2.1.0 implements a new text width measurer which uses a lookup table, removing the dependency on PDFKit. It is no longer necessary to provide a local copy of Verdana for accurate text width computation.
 
 As such, the `fontPath` and `precomputeWidths` parameters are now deprecated. The recommended call to create an instance of `BadgeFactory` is now
 
@@ -221,8 +245,7 @@ const svg = bf.create(format)
 
 ## 2.0.0 - 2018-11-09
 
-gh-badges v2.0.0 declares a new public interface which is synchronous.
-If your version 1.3.0 code looked like this:
+gh-badges v2.0.0 declares a new public interface which is synchronous. If your version 1.3.0 code looked like this:
 
 ```js
 const badge = require('gh-badges')

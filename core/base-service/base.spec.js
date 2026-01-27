@@ -1,5 +1,5 @@
 import Joi from 'joi'
-import chai from 'chai'
+import { expect, use } from 'chai'
 import sinon from 'sinon'
 import prometheus from 'prom-client'
 import chaiAsPromised from 'chai-as-promised'
@@ -11,13 +11,11 @@ import {
   Inaccessible,
   InvalidResponse,
   InvalidParameter,
-  Deprecated,
 } from './errors.js'
 import BaseService from './base.js'
 import { MetricHelper, MetricNames } from './metric-helper.js'
 import '../register-chai-plugins.spec.js'
-const { expect } = chai
-chai.use(chaiAsPromised)
+use(chaiAsPromised)
 
 const queryParamSchema = Joi.object({
   queryParamA: Joi.string(),
@@ -290,21 +288,6 @@ describe('BaseService', function () {
           isError: true,
           color: 'lightgray',
           message: 'invalid',
-        })
-      })
-
-      it('handles Deprecated', async function () {
-        class ThrowingService extends DummyService {
-          async handle() {
-            throw new Deprecated()
-          }
-        }
-        expect(
-          await ThrowingService.invoke({}, {}, { namedParamA: 'bar.bar.bar' }),
-        ).to.deep.equal({
-          isError: true,
-          color: 'lightgray',
-          message: 'no longer available',
         })
       })
 

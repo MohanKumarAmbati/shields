@@ -18,7 +18,7 @@ t.create('version (valid)')
   .expectBadge({
     label: 'aur',
     message: isVPlusDottedVersionNClausesWithOptionalSuffix,
-    color: 'blue',
+    color: Joi.string().valid('blue', 'orange').required(),
   })
 
 t.create('version (not found)')
@@ -70,6 +70,33 @@ t.create('license (no license)')
         results: [
           {
             License: null,
+            NumVotes: 1,
+            Popularity: 0,
+            Version: '1',
+            OutOfDate: null,
+            Maintainer: null,
+            LastModified: 1,
+          },
+        ],
+      }),
+  )
+  .expectBadge({ label: 'license', message: 'not specified' })
+
+t.create('license (empty license)')
+  .get('/license/vscodium-bin.json')
+  .intercept(nock =>
+    nock('https://aur.archlinux.org')
+      .get('/rpc')
+      .query({
+        v: 5,
+        type: 'info',
+        arg: 'vscodium-bin',
+      })
+      .reply(200, {
+        resultcount: 1,
+        results: [
+          {
+            License: [],
             NumVotes: 1,
             Popularity: 0,
             Version: '1',
