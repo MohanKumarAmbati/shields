@@ -3,7 +3,7 @@ import { registerCommand } from 'cypress-wait-for-stable-dom'
 registerCommand()
 
 describe('Frontend', function () {
-  const backendUrl = Cypress.env('backend_url')
+  const backendUrl = Cypress.expose('backend_url')
   const SEARCH_INPUT = 'input[placeholder="Search"]'
 
   function visitAndWait(page) {
@@ -16,7 +16,7 @@ describe('Frontend', function () {
 
     cy.get(SEARCH_INPUT).type('pypi')
 
-    cy.contains('PyPI - License')
+    cy.contains('PyPI License')
   })
 
   it('Shows badges from category', function () {

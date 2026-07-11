@@ -35,12 +35,11 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7
 
       - name: Setup
         uses: ./.github/actions/setup
         with:
-          node-version: 22
           cypress: false
 
       - name: Output debug info
@@ -49,7 +48,7 @@ jobs:
         run: npm run badge $TEST_BADGE_LINK
 
       - name: Add Comment to Issue
-        uses: actions/github-script@v8
+        uses: actions/github-script@v9
         with:
           script: |
             const issueNumber = context.issue.number;

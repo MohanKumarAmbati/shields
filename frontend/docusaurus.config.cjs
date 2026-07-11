@@ -9,7 +9,6 @@ const config = {
   url: 'https://shields.io',
   baseUrl: '/',
   onBrokenLinks: 'throw',
-  onBrokenMarkdownLinks: 'warn',
   favicon: 'img/favicon.ico',
   organizationName: 'badges',
   projectName: 'shields',
@@ -30,6 +29,9 @@ const config = {
       comments: true,
       admonitions: true,
       headingIds: true,
+    },
+    hooks: {
+      onBrokenMarkdownLinks: 'warn',
     },
   },
 
@@ -63,6 +65,7 @@ const config = {
   themeConfig:
     /** @type {import('docusaurus-preset-openapi').ThemeConfig} */
     ({
+      image: 'img/opengraph.png',
       languageTabs: [],
       navbar: {
         title: 'Shields.io',
@@ -107,6 +110,10 @@ const config = {
               {
                 label: 'Awesome Badges',
                 href: 'https://github.com/badges/awesome-badges',
+              },
+              {
+                label: 'Endpoint Badges Directory',
+                href: 'https://github.com/badges/endpoint-badges-directory',
               },
             ],
           },

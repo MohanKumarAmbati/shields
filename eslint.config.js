@@ -1,5 +1,5 @@
 import chaiFriendlyPlugin from 'eslint-plugin-chai-friendly'
-import cypressPlugin from 'eslint-plugin-cypress/flat'
+import cypressPlugin from 'eslint-plugin-cypress'
 import jsdocPlugin from 'eslint-plugin-jsdoc'
 import mochaPlugin from 'eslint-plugin-mocha'
 import icedfrisbyPlugin from 'eslint-plugin-icedfrisby'
@@ -115,7 +115,7 @@ const servicesConfig = {
         order: [
           'name',
           'category',
-          'isDeprecated',
+          'isRetired',
           'route',
           'auth',
           'openApi',

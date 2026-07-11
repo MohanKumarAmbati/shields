@@ -9,6 +9,11 @@ updates:
     open-pull-requests-limit: 99
     rebase-strategy: disabled
     ignore:
+      - dependency-name: 'simple-icons'
+        update-types:
+          - 'version-update:semver-major'
+          - 'version-update:semver-minor'
+          - 'version-update:semver-patch'
       # https://github.com/badges/shields/issues/7324
       # https://github.com/badges/shields/issues/7447
       # we're stuck with these versions until Safari is compatible with lookbehind regex syntax
@@ -29,6 +34,16 @@ updates:
         applies-to: security-updates
         patterns:
           - '@docusaurus/*'
+      react-version-updates:
+        applies-to: version-updates
+        patterns:
+          - 'react'
+          - 'react-dom'
+      react-security-updates:
+        applies-to: security-updates
+        patterns:
+          - 'react'
+          - 'react-dom'
 
   # badge-maker package dependencies
   - package-ecosystem: npm

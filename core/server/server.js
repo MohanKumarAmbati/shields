@@ -114,9 +114,6 @@ const publicConfigSchema = Joi.object({
   },
   redirectUrl: optionalUrl,
   rasterUrl: optionalUrl,
-  cors: {
-    allowedOrigin: Joi.array().items(optionalUrl),
-  },
   services: Joi.object({
     bitbucket: defaultService,
     bitbucketServer: defaultService,
@@ -150,7 +147,6 @@ const publicConfigSchema = Joi.object({
   }).required(),
   cacheHeaders: { defaultCacheLengthSeconds: nonNegativeInteger },
   handleInternalErrors: Joi.boolean().required(),
-  fetchLimit: Joi.string(),
   fetchLimitBytes: fileSizeBytes,
   userAgentBase: Joi.string().required(),
   requestTimeoutSeconds: nonNegativeInteger,

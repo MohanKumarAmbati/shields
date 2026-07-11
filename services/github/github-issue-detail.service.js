@@ -20,13 +20,21 @@ const stateMap = {
   schema: Joi.object({
     ...commonSchemaFields,
     state: Joi.equal('open', 'closed').required(),
+    state_reason: Joi.string().allow(null), // only for issues
     merged_at: Joi.string().allow(null),
   }).required(),
-  transform: ({ json }) => ({
-    state: json.state,
-    // Because eslint will not be happy with this snake_case name :(
-    merged: json.merged_at !== null,
-  }),
+  transform: ({ json }) => {
+    const mergedAt = json.pull_request?.merged_at ?? json.merged_at
+    const stateWithReason =
+      json.state_reason === 'not_planned' || json.state_reason === 'duplicate'
+        ? json.state_reason.replace('_', ' ')
+        : json.state
+
+    return {
+      state: stateWithReason,
+      merged: mergedAt != null,
+    }
+  },
   render: ({ value, isPR, number }) => {
     const state = value.state
     const label = `${isPR ? 'pull request' : 'issue'} ${number}`

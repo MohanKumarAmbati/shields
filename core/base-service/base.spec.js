@@ -309,7 +309,6 @@ describe('BaseService', function () {
   })
 
   describe('ScoutCamp integration', function () {
-    // TODO Strangely, without the useless escape the regexes do not match in Node 12.
     // eslint-disable-next-line no-useless-escape
     const expectedRouteRegex = /^\/foo(?:\/([^\/#\?]+?))(|\.svg|\.json)$/
 
@@ -370,17 +369,17 @@ describe('BaseService', function () {
 
   describe('getDefinition', function () {
     it('returns the expected result', function () {
-      const { category, name, isDeprecated, route, openApi } =
+      const { category, name, isRetired, route, openApi } =
         DummyService.getDefinition()
       expect({
         category,
         name,
-        isDeprecated,
+        isRetired,
         route,
       }).to.deep.equal({
         category: 'other',
         name: 'DummyService',
-        isDeprecated: false,
+        isRetired: false,
         route: {
           pattern: '/foo/:namedParamA',
           queryParams: ['queryParamA', 'legacyQueryParamA'],

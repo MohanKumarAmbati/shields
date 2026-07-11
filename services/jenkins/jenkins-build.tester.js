@@ -7,9 +7,7 @@ t.create('build job not found')
   .expectBadge({ label: 'build', message: 'instance or job not found' })
 
 t.create('build found (view)')
-  .get(
-    '/build.json?jobUrl=https://ci.hibernate.org/view/Main/job/hibernate-search/job/main',
-  )
+  .get('/build.json?jobUrl=https://ci.eclipse.org/jgit/view/all/job/jgit')
   .expectBadge({ label: 'build', message: isBuildStatus })
 
 t.create('build found (job)')
